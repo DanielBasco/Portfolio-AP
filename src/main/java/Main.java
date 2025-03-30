@@ -15,30 +15,6 @@ public class Main {
 
     }
 
-    private static void testLinearAndBinarySearch() {
-        List<Student> students = new ArrayList<>();
-        Factory.fillWithStudents(students, 100000);
-
-        // Sorter listen efter ID (nødvendigt for binær søgning)
-        students.sort(Comparator.comparingInt(Student::getId));
-
-        int targetId = 99999; // sidst i listen, så forskellen er tydelig!
-
-        // Lineær søgning (langsom)
-        long start = System.currentTimeMillis();
-        Student studentLinear = SearchExamples.linearSearch(students, targetId);
-        long stop = System.currentTimeMillis();
-        System.out.println("Lineær søgning fandt: " + studentLinear);
-        System.out.println("Tid: " + (stop - start) + " ms");
-
-        // Binær søgning (hurtig)
-        start = System.currentTimeMillis();
-        Student studentBinary = SearchExamples.binarySearch(students, targetId);
-        stop = System.currentTimeMillis();
-        System.out.println("Binær søgning fandt: " + studentBinary);
-        System.out.println("Tid: " + (stop - start) + " ms");
-    }
-
     private static void testComplexity() {
         int n = 10000; // justér for at demonstrere tydeligt
 
@@ -68,7 +44,33 @@ public class Main {
         System.out.println("Time for O(n²): " + (stop - start) + " ms\n");
     }
 
+    private static void testLinearAndBinarySearch() {
+        List<Student> students = new ArrayList<>();
+        Factory.fillWithStudents(students, 100000);
+
+        // Sorter listen efter ID (nødvendigt for binær søgning)
+        students.sort(Comparator.comparingInt(Student::getId));
+
+        int targetId = 99999; // sidst i listen, så forskellen er tydelig!
+
+        // Lineær søgning (langsom)
+        long start = System.currentTimeMillis();
+        Student studentLinear = SearchExamples.linearSearch(students, targetId);
+        long stop = System.currentTimeMillis();
+        System.out.println("Lineær søgning fandt: " + studentLinear);
+        System.out.println("Tid: " + (stop - start) + " ms");
+
+        // Binær søgning (hurtig)
+        start = System.currentTimeMillis();
+        Student studentBinary = SearchExamples.binarySearch(students, targetId);
+        stop = System.currentTimeMillis();
+        System.out.println("Binær søgning fandt: " + studentBinary);
+        System.out.println("Tid: " + (stop - start) + " ms");
     }
+
+
+
+
 
 
 

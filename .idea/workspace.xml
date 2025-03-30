@@ -5,20 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4a9a5430-e83d-4879-8d5e-c9086862fc55" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/data/Courses.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/data/Students.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/exercises.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/searchandsort/BigOExamples.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/searchandsort/SearchExamples.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/searchandsort/SortExamples.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/searchandsort/entities/Course.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/searchandsort/entities/Student.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/searchandsort/util/Factory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/searchandsort/HashSetMutationDemo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/searchandsort/TreeSetMutationDemo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/data/Courses.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/Courses.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/data/Students.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/Students.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/exercises.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/exercises.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/searchandsort/SearchExamples.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/searchandsort/SearchExamples.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +42,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.BigOExamples.executor": "Run",
+    "Application.HashSetMutationDemo.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.TreeSetMutationDemo.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -64,6 +62,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\kong\OneDrive - EFIF\Dokumenter\Valgfag\AvanceretProgrammering\data" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\kong\OneDrive - EFIF\Dokumenter\Valgfag\AvanceretProgrammering\data" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -86,7 +87,7 @@
       <option name="presentableId" value="Default" />
       <updated>1743159764513</updated>
       <workItem from="1743159765627" duration="4967000" />
-      <workItem from="1743336853207" duration="886000" />
+      <workItem from="1743336853207" duration="9336000" />
     </task>
     <servers />
   </component>

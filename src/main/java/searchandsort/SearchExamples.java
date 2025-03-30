@@ -3,10 +3,25 @@ package searchandsort;
 import searchandsort.entities.Student;
 
 import java.util.List;
+import java.util.Scanner;
+
 
 public class SearchExamples {
 
-    // Lineær søgning
+    public static void main(String[] args) {
+        System.out.println("Tænk på et tal mellem 1 og 100");
+        System.out.println("Jeg prøver at gætte det...");
+
+        System.out.println("\nLineær søgning:");
+        guessNumberLinearly();
+
+        System.out.println("\nBinær søgning:");
+        guessNumberBinary();
+    }
+
+    private static Scanner scanner = new Scanner(System.in);
+
+    // Lineær søgning i array
     public static int linearSearch(int[] array, int target) {
         for (int i = 0; i < array.length; i++) {
             if (array[i] == target) return i; // fundet!
@@ -32,6 +47,7 @@ public class SearchExamples {
         return -1; // ikke fundet
     }
 
+    // Lineær søgning i liste
     public static Student linearSearch(List<Student> students, int id) {
         for (Student student : students) {
             if (student.getId() == id) return student;
@@ -57,6 +73,17 @@ public class SearchExamples {
         }
         return null;
     }
+
+    // Lineær søgning: prøver 1, 2, 3, ...
+    public static void guessNumberLinearly() {
+
+    }
+
+        // Binær søgning: deler søgeområdet og spørger større/mindre
+    public static void guessNumberBinary() {
+
+    }
+
 
 
 }
