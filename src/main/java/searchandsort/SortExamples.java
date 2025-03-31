@@ -27,7 +27,9 @@ public class SortExamples {
         }
     }
 
+    // rekursiv metode
     public static void quickSort(List<Student> students, int low, int high) {
+        // base case - vi hopper ud af rekursion hvis low er >=  high
         if (low < high) {
             int pivot = partition(students, low, high);
             quickSort(students, low, pivot - 1);
