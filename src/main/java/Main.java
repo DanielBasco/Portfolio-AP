@@ -13,7 +13,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-
+        testSort();
 
     }
 
@@ -39,7 +39,7 @@ public class Main {
         System.out.println("Time for O(n): " + (stop - start) + " ms\n");
 
         // O(n²) - pas på med at vælge et for stort n!
-        n = 2000; // mindre n for kvadratisk!
+      //  n = 2000; // mindre n for kvadratisk!
         start = System.currentTimeMillis();
         BigOExamples.quadraticTime(n);
         stop = System.currentTimeMillis();
@@ -73,12 +73,12 @@ public class Main {
     private static void testSort() {
         List<Student> original = new ArrayList<>();
         Factory.fillWithStudents(original, 100000); // eller fx 10_000 til hurtigere test
-        Collections.shuffle(original);
+      //  Collections.shuffle(original);
 
         // Bubble Sort (langsom)
         List<Student> bubbleList = new ArrayList<>(original);
         long start = System.currentTimeMillis();
-        SortExamples.bubbleSort(bubbleList);
+     //   SortExamples.bubbleSort(bubbleList);
         long stop = System.currentTimeMillis();
         System.out.println("Bubble Sort - tid: " + (stop - start) + " ms");
 

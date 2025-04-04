@@ -5,10 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4a9a5430-e83d-4879-8d5e-c9086862fc55" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/docs/designpatterns_exercises.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/adapter/NewPrinter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/adapter/OldPrinter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/adapter/PrinterAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/builder/Pizza.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/command/Command.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/command/Light.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/command/LightOnCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/composite/Component.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/composite/Composite.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/composite/Leaf.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/decorator/EmailNotifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/decorator/Notifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/decorator/SMSDecorator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/factory/Animal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/factory/AnimalFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/factory/Cat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/factory/Cow.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/factory/Dog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/main/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/observer/Observer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/observer/Subject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/observer/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/proxy/AuthProxy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/proxy/RealService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/proxy/Service.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/singleton/Singleton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/strategy/BubbleSort.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/strategy/SortStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/designpatterns/strategy/Sorter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/exercises.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/exercises.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/exercises.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/searchandsort_exercises.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/searchandsort/SortExamples.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/searchandsort/SortExamples.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/searchandsort/BigOExamples.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/searchandsort/BigOExamples.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +48,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -32,7 +63,9 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2uwVk5tYqtzSMNZECgFy2fQ8bQY" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
@@ -46,7 +79,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/kong/OneDrive - EFIF/Dokumenter/Valgfag/AvanceretProgrammering&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kong/OneDrive - EFIF/Dokumenter/Valgfag/AvanceretProgrammering/src/main/java&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -67,6 +100,34 @@
       <recent name="" />
     </key>
   </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="HashSetMutationDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="searchandsort.HashSetMutationDemo" />
+      <module name="AvanceretProgrammering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="searchandsort.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="AvanceretProgrammering" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.HashSetMutationDemo" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -85,7 +146,10 @@
       <workItem from="1743159765627" duration="4967000" />
       <workItem from="1743336853207" duration="9336000" />
       <workItem from="1743352058828" duration="1011000" />
-      <workItem from="1743418333070" duration="5092000" />
+      <workItem from="1743418333070" duration="5587000" />
+      <workItem from="1743492145862" duration="9670000" />
+      <workItem from="1743680793735" duration="2741000" />
+      <workItem from="1743748425125" duration="612000" />
     </task>
     <servers />
   </component>

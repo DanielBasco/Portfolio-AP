@@ -37,11 +37,13 @@ public class BigOExamples {
 
     // O(n^2) - Kvadratisk tid
     public static void quadraticTime(int n) {
+
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 System.out.println("Kvadratisk iteration: " + i + "," + j);
             }
         }
+
     }
 }
 
