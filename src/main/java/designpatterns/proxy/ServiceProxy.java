@@ -1,6 +1,6 @@
 package designpatterns.proxy;
 
-public class AuthProxy implements Service {
+public class ServiceProxy implements Service {
     private RealService realService;
 
     public void perform() {

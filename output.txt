@@ -1,0 +1,6 @@
+[2025-04-04T09:46:30.586871300]    fandens, det virker!   
+
+Dette er en test.  
+[2025-04-06T08:10:24.441627]    fandens, det virker!   
+
+Dette er en test.  

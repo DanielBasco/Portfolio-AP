@@ -1,5 +1,6 @@
 package designpatterns.main;
 
+import designpatterns.builder.User;
 import designpatterns.singleton.*;
 import designpatterns.factory.*;
 import designpatterns.builder.*;
@@ -23,8 +24,12 @@ public class Main {
         dog.speak();
 
         // Builder
-        Pizza pizza = new Pizza.Builder().dough("Thin").topping("Cheese").build();
-        System.out.println(pizza);
+        User user = new User.Builder("Anna", "anna@example.com")
+                .address("Fyrrevej 7")
+                .newsletter(true)
+                .build();
+
+        System.out.println("Bruger: " + user);
 
         // Decorator
         Notifier notifier = new SMSDecorator(new EmailNotifier());
@@ -35,17 +40,30 @@ public class Main {
         printer.print();
 
         // Composite
-        Component file1 = new Leaf();
-        Component file2 = new Leaf();
-        Composite folder = new Composite();
-        folder.add(file1);
-        folder.add(file2);
-        folder.operation();
+        GameObject goblin = new Enemy("Goblin");
+        GameObject orc = new Enemy("Ork");
+
+        EnemyGroup squad = new EnemyGroup("Fjendegruppe A");
+        squad.add(goblin);
+        squad.add(orc);
+
+        EnemyGroup bossAndMinions = new EnemyGroup("Boss + hjælpere");
+        bossAndMinions.add(new Enemy("Demon Boss"));
+        bossAndMinions.add(squad);
+
+        bossAndMinions.update(); // Kalder update() rekursivt!
 
         // Command
-        Light light = new Light();
-        Command lightOn = new LightOnCommand(light);
-        lightOn.execute();
+        Light kitchenLight = new Light();
+        Command onCommand = new LightOnCommand(kitchenLight);
+        Command offCommand = new LightOffCommand(kitchenLight);
+
+        RemoteControl remote = new RemoteControl(2);
+        remote.setCommand(0, onCommand);
+        remote.setCommand(1, offCommand);
+
+        remote.pressButton(0); // tænder lyset
+        remote.pressButton(1); // slukker lyset
 
         // Strategy
         Sorter sorter = new Sorter();
@@ -54,7 +72,7 @@ public class Main {
 
         // Observer
         Subject subject = new Subject();
-        Observer user1 = new User("Alice");
+        designpatterns.observer.Observer user1 = new designpatterns.observer.User("Alice");
         subject.addObserver(user1);
         subject.notifyObservers("New update available!");
 
