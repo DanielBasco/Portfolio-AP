@@ -2,7 +2,7 @@
 
 ## 1. Lav et observer pattern uden tråde
 
-Kig på klasserne `Sensor`, `Logger`, `Display` og `Alarm` i pakken `concurrency.observerexercise`. Tanken er, at bygge
+Kig på klasserne `Sensor`, `Logger`, `Display` og `Alarm` i pakken `concurrency.observerexercise`. Tanken er at bygge
 et system med en sensor, der opfanger et eller andet og sender besked til en logger, et display (en skærm med advarsler)
 og en alarm. For at det skal kunne ske, vil vi gerne lave et observer pattern.
 
@@ -12,18 +12,18 @@ Opgaven er nu:
   forskellige systemer, der skal notificeres (fx logger, display, alarm).
 - Lad klasserne `Logger`, `Display` og `Alarm` implementere interfacet.
 - Giv klassen `Sensor` metoder til at tilføje og slette `SensorObserver`-objekter.
-- Sørg for at `Sensor` i tilfælde af at `eventHappened` bliver kaldt vil notificere alle sine observers.
+- Sørg for at `Sensor` notificerer alle sine observers, når `eventHappened(int code)` kaldes.
 - Test i `Main` at det virker.
 
 ## 2. Lav et observer pattern med tråde
 
 Prøv at lade `Logger` være langsom ved at indsætte et `Thread.sleep(2000)` i dens `eventDetected()`-metode. Kør `main` igen.
-Nu bliver de andre observere blokeret. Det betyder at alarmen ikke kan gå i gang før loggeren er færdig med at skrive i en fil. Det er et
+Nu bliver de andre observere blokeret. Det betyder, at alarmen ikke kan gå i gang før loggeren er færdig med at skrive i en fil. Det er et
 dårligt design!
 
 Opgaven er nu:
 
-- Refaktorer `Sensor` så den starter en ny tråd hver gang en ny observer notificeres.
+- Refaktorer `Sensor` så den starter en ny tråd hver gang en ny observer notificeres. Du bestemmer selv om du arver fra Thread eller bruger Runnable. 
 - Test i `main` at din logger ikke længere blokerer for alarmen.
 
 
@@ -52,9 +52,9 @@ Opgaven er nu:
 - Vælg en strategi og implementer den. Test at din kode virker. 
 
 
-## Brug Executor, ExecutorService og Future til din Sensor
+## Sorter med ExcecutorService og Future
 
-Vi skal nu lave en opgave, hvor vi sorterer et stort datasæt. Til det kan vi bruge `searchandsort.SortExamples.quickSort`. Der er lidt
+Vi skal sortere et stort datasæt. Til det kan vi bruge `searchandsort.SortExamples.quickSort`. Der er lidt
 eksempelkode at gå i gang med. Kig på `Main` i pakken `executorexercise`. 
 
 Det vi gerne vil opnå er at sætte en sortering i gang og lave noget

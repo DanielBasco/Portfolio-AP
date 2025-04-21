@@ -5,13 +5,13 @@ import java.util.Random;
 public class BankAccount {
     private int balance = 0;
 
-    public synchronized void  deposit(int amount) {
+    public void  deposit(int amount) {
         int temp = balance;
         sleep(); // kunstig forsinkelse
         balance = temp + amount;
     }
 
-    public synchronized void withdraw(int amount) {
+    public void withdraw(int amount) {
         int temp = balance;
         sleep();
         balance = temp - amount;

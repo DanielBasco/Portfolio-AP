@@ -5,28 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4a9a5430-e83d-4879-8d5e-c9086862fc55" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/executorexercise/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/executors/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/executorsolution/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/executorsolution/SortTask.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observer/Alarm.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observer/Display.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observer/Logger.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observer/Sensor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observersolution/Alarm.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observersolution/Display.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observersolution/Logger.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observersolution/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observersolution/Sensor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observersolution/SensorObserver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observersolutionwiththreads/Alarm.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observersolutionwiththreads/Display.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observersolutionwiththreads/Logger.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observersolutionwiththreads/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observersolutionwiththreads/Sensor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/concurrency/observersolutionwiththreads/SensorObserver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/concurrency/concurrency_exercises.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/concurrency/concurrency_exercises.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/concurrency/bankaccount/BankAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/concurrency/bankaccount/BankAccount.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,34 +38,34 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.BigOExamples.executor": "Run",
-    "Application.HashSetMutationDemo.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.TreeSetMutationDemo.executor": "Run",
-    "Application.concurrency.bankaccount.Main.executor": "Run",
-    "Application.concurrency.executorsolution.Main.executor": "Run",
-    "Application.concurrency.observersolution.Main.executor": "Run",
-    "Application.concurrency.observersolutionwiththreads.Main.executor": "Run",
-    "Application.concurrency.synchronization.Main.executor": "Run",
-    "Application.concurrency.threadandrunnable.Main.executor": "Run",
-    "Application.designpatterns.exercises.Main.executor": "Run",
-    "Application.designpatterns.main.Main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/kong/OneDrive - EFIF/Dokumenter/Valgfag/AvanceretProgrammering/src/main/java/concurrency/observersolutionwiththreads",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "C:/Users/kong/OneDrive - EFIF/Dokumenter/Valgfag/AvanceretProgrammering/src/main/java/org/example/Main.java",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.BigOExamples.executor&quot;: &quot;Run&quot;,
+    &quot;Application.HashSetMutationDemo.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TreeSetMutationDemo.executor&quot;: &quot;Run&quot;,
+    &quot;Application.concurrency.bankaccount.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.concurrency.executorsolution.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.concurrency.observersolution.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.concurrency.observersolutionwiththreads.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.concurrency.synchronization.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.concurrency.threadandrunnable.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.designpatterns.exercises.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.designpatterns.main.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kong/OneDrive - EFIF/Dokumenter/Valgfag/AvanceretProgrammering/src/main/java/concurrency/observersolutionwiththreads&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/kong/OneDrive - EFIF/Dokumenter/Valgfag/AvanceretProgrammering/src/main/java/org/example/Main.java&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\kong\OneDrive - EFIF\Dokumenter\Valgfag\AvanceretProgrammering\src\main\java\concurrency\observersolutionwiththreads" />
@@ -104,13 +85,26 @@
       <recent name="concurrency.deadlocksolution" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.concurrency.executorsolution.Main">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="concurrency.bankaccountdeadlock.Main" />
       <module name="AvanceretProgrammering" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="concurrency.bankaccountdeadlock.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="concurrency.bankaccount.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="concurrency.bankaccount.Main" />
+      <module name="AvanceretProgrammering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="concurrency.bankaccount.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -157,26 +151,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="concurrency.synchronization.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="concurrency.synchronization.Main" />
-      <module name="AvanceretProgrammering" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="concurrency.synchronization.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.concurrency.bankaccount.Main" />
         <item itemvalue="Application.concurrency.executorsolution.Main" />
         <item itemvalue="Application.concurrency.observersolutionwiththreads.Main" />
         <item itemvalue="Application.concurrency.observersolution.Main" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.concurrency.synchronization.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -209,7 +190,8 @@
       <workItem from="1744615345241" duration="4825000" />
       <workItem from="1744903085367" duration="404000" />
       <workItem from="1744903498376" duration="3349000" />
-      <workItem from="1744959790647" duration="6389000" />
+      <workItem from="1744959790647" duration="8279000" />
+      <workItem from="1745253073506" duration="2085000" />
     </task>
     <servers />
   </component>
