@@ -25,6 +25,25 @@ public class CycleDetector {
         } else {
             System.out.println("Graph does not contain any cycles.");
         }
+
+        // Vi tilføjer en forbindelse fra C til A
+        C.addNeighbor(A);
+        System.out.println("Cycle detection starting yet again...");
+        hasCycle = detectCycle(A);
+        if (hasCycle) {
+            System.out.println("Graph contains a cycle!");
+        } else {
+            System.out.println("Graph does not contain any cycles.");
+        }
+
+        // og vi behøver ikke starte ved A
+        System.out.println("Cycle detection starting yet again...");
+        hasCycle = detectCycle(E);
+        if (hasCycle) {
+            System.out.println("Graph contains a cycle!");
+        } else {
+            System.out.println("Graph does not contain any cycles.");
+        }
     }
 
     public static boolean detectCycle(Node start) {
@@ -33,6 +52,7 @@ public class CycleDetector {
         return dfsDetectCycle(start, visited, inPath);
     }
 
+    // Virker kun på rettede grafer (vi kan kun gå én vej)
     private static boolean dfsDetectCycle(Node current, Set<Node> visited, Set<Node> inPath) {
         if (inPath.contains(current)) {
             // Vi har stødt på en node vi allerede er på vej igennem -> cyklus!

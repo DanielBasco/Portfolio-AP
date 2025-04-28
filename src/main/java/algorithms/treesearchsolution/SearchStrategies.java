@@ -1,7 +1,9 @@
-package algorithms.treesearch;
+package algorithms.treesearchsolution;
 
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Queue;
 
 public class SearchStrategies {
 
@@ -23,7 +25,7 @@ public class SearchStrategies {
             System.out.println("Found nothing!");
         }
 
-        foundNode = searchDFS(500, root); // BFS search
+        foundNode = searchDFS(500, root);
         System.out.println("DFS starting..");
         if (foundNode != null) {
             System.out.println(foundNode.getValue());
@@ -33,12 +35,36 @@ public class SearchStrategies {
     }
 
     public static Node searchBFS(int value, Node root) {
+        Queue<Node> queue = new ArrayDeque<>();
+        queue.add(root);
 
+        while(!queue.isEmpty()){
+            Node currentNode = queue.remove();
+            if(value == currentNode.getValue()){
+                return currentNode;
+            }
+            else{
+                queue.addAll(currentNode.getChildren());
+            }
+        }
         return null;
     }
 
     public static Node searchDFS(int value, Node root) {
+        Deque<Node> stack = new ArrayDeque<>();
+        stack.push(root);
 
+        while(!stack.isEmpty()){
+            Node currentNode = stack.pop();
+            if(value == currentNode.getValue()){
+                return currentNode;
+            }
+            else{
+                for(Node n:currentNode.getChildren()){
+                    stack.push(n);
+                }
+            }
+        }
         return null;
     }
 

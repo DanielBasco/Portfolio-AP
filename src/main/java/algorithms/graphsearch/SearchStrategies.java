@@ -13,13 +13,13 @@ public class SearchStrategies {
         Node E = new Node("E");
 
         A.addNeighbor(B);
+        A.addNeighbor(C);
         A.addNeighbor(D);
-        B.addNeighbor(C);
-        D.addNeighbor(E);
-        E.addNeighbor(C);
+        C.addNeighbor(E);
+
 
         System.out.println("BFS starting...");
-        Node foundBFS = searchBFS("C", A);
+        Node foundBFS = searchBFS("F", A);
         if (foundBFS != null) {
             System.out.println("Found by BFS: " + foundBFS.getName());
         } else {
@@ -27,7 +27,7 @@ public class SearchStrategies {
         }
 
         System.out.println("DFS starting...");
-        Node foundDFS = searchDFS("C", A);
+        Node foundDFS = searchDFS("F", A);
         if (foundDFS != null) {
             System.out.println("Found by DFS: " + foundDFS.getName());
         } else {
