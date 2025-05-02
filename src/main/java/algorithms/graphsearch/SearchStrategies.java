@@ -17,7 +17,6 @@ public class SearchStrategies {
         A.addNeighbor(D);
         C.addNeighbor(E);
 
-
         System.out.println("BFS starting...");
         Node foundBFS = searchBFS("F", A);
         if (foundBFS != null) {

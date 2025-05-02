@@ -131,3 +131,83 @@ I pseudokode ser det sådan ud:
 
 Kig på koden og se om du kan tegne på papir hvad der sker. Du kan tilføje nogle udprint
 i metoden og se om din tegning stemmer overens med output fra metoden. 
+
+## 8. Prøv alle muligheder - følg koden
+
+Kig på koden i `algorithms/TryBacktrack`. Der er fem metoder, som printer forskellige tal- eller strengkombinationer.
+Du skal først gætte, hvad output bliver – og bagefter teste din forståelse. Kig på de første
+tre og skriv ned, hvad de vil printe
+
+Opgaven er altså 
+
+- hvad printer `simpleForloop()`?
+- hvad printer `innerLoop()`?
+- hvad printer `moreInnerLoops()`?
+- Kør `main` og se om du har ret. 
+
+Kig dernæst på koden i `explore(..)`. Den printer det samme som `moreInnerLoops()`. Forstår du hvorfor?
+
+Opgaven er 
+
+- hvad bruges parametrene `step` og `path` til?
+- hvorfor har vi brug for parametre her, men ikke i fx `moreInnerLoops()`?
+
+Bonus:Se på `exploreWithBacktrack(...)`. Hvad ændrer sig i output? (Se om du kan gennemskue det før du kører koden)
+
+## 9. Maze solver
+
+Du har en labyrint, du skal gå igennem. Labyrinten er repræsenteret af et to-dimensionelt array hvor
+- `1` betyder "du kan gå her"
+- `0` betyder "mur - her kan du ikke gå"
+
+Labyrinten kan fx se sådan ud: 
+
+```java
+int[][] maze = {
+{1, 0, 1, 1},
+{1, 1, 1, 0},
+{0, 0, 1, 1},
+{1, 1, 0, 1}
+};
+```
+
+Du starter i øverste venstre hjørne (0,0) og skal finde vej til nederste højre hjørne (3,3). 
+
+Kig på koden i `maze.MazeExercise`. Der mangler at blive implementeret en metode, der kan gå gennem labyrinten.
+I kan med fordel arbejde sammen i par og skrive pseudokode for metoden inden I implementerer. 
+
+Brug `int[][] path = new int[N][N];` til at holde styr på vejen gennem labyrinten. Den skal både bruges, når du 
+printer løsningen og når du tjekker for om du allerede har besøgt et felt. 
+
+Opgaven er nu
+
+- Implementer metoden `solveMaze(..)`. For hvert skridt skal du
+  - Tjekke om du går udenfor labyrintens grænser
+  - Tjekke om feltet er gyldigt ([row][col] == 1)
+  - Tjekke om feltet er en del af en sti du har prøvet før (`path`)
+  - Tjekke om du har nået målet ([row][col] == 3)
+  - Markere feltet som en del af stien (`path`)
+  - Prøv de fire retninger én af gangen
+    - ned
+    - højre
+    - op
+    - venstre
+  - Hvis ingen muligheder virker, så backtrack (og fjern feltet fra `path`)
+
+Du kan søge inspiration i `backtracking/NQueeens` og der er vejledende løsninger i `mazesolution/MazeSolution`. 
+
+## 10 Dovne beregninger
+
+Kig på koden i `lazy.LazyCalculations`. Hvad sker der hvis vi kalder metoden `lazyFactorial(..)` med 5 som argument?
+Og hvad sker der, hvis vi efterfølgende kalder metoden med 3 som argument? 
+
+Lav din egen metode `lazySum(int i)` som summerer tallene fra 1 - n. 
+
+Prøv at sætte counter på dine metoder og se hvor mange beregninger der udføres, når du kalder dem. 
+
+Prøv at lave metoden `init()` som laver alle beregninger på forhånd. Lav derefter metoderne `eagerFactorial(..)` 
+og `eagerSum(..)` som blot slår op i det map, der er lavet i `init()`. Sæt counter på dine metoder og se hvor mange beregninger, 
+der udføres. Test i `main` hvor lang tid en beregning i de dovne metoder tager i forhold til de eager? Og hvor lang tid opstart
+tager (kald til `init()`). Måske skal du lægge kunstig tid ind i beregningsdelene for at se en effekt på små datasæt. 
+
+
