@@ -17,7 +17,7 @@ Opgaven er nu
 opgave 3. 
 5. Find ud af om der er felter i klassen og skriv deres værdi ud. 
 
-BONUS: Hvis du er hurtigt færdig, så lav en hemmelig klasse og byt med din sidemakker. 
+BONUS: Hvis du er hurtigt færdig, så lav en hemmelig klasse og byt med din sidemakker.
 
 ## 2. Lav din egen annotation
 
@@ -30,3 +30,15 @@ Din opgave er
 - Udvid din `AccessController` så kald til metoder med `@Log` bliver skrevet i logfil med tidspunkt, brugernavn og om kaldet blev tilladt.
 
 BONUS: Hvis du er hurtigt færdig, så udvid med flere annotationer. Leg fx med `@Target`.
+
+## Bonusopgave: Kodegenerering
+
+Brug din kode fra opgave 1 til at opbygge koden til klassen `SecretBox` og læg den i en java-fil. 
+Du skal
+- generere klassens navn og felter
+- generere alle metodesignaturer
+- lade metoderne være tomme, da vi jo ikke kan 
+læse metodekroppen med refleksion, men tilføje kommentaren 
+```java
+// TODO: implement this later
+```

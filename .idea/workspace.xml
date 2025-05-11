@@ -5,27 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4a9a5430-e83d-4879-8d5e-c9086862fc55" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/reflection/reflexion_exercises.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/annotations/AccessController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/annotations/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/annotations/Role.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/annotations/SecureService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/annotations/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/annotations_solution/AccessController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/annotations_solution/Log.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/annotations_solution/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/annotations_solution/Role.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/annotations_solution/SecureService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/annotations_solution/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/fieldsandmethods/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/fieldsandmethods/MysteryInspector.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/fieldsandmethods/MysteryInspectorSolution.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/fieldsandmethods/Person.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/fieldsandmethods/ReflectionDemo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/reflection/fieldsandmethods/SecretBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/algorithms/greedy/WoodHandlerSolution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/algorithms/greedy/WoodHandlerSolution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/reflection/reflexion_exercises.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/reflection/reflexion_exercises.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -264,7 +245,7 @@
       <workItem from="1746514468235" duration="10185000" />
       <workItem from="1746697695641" duration="659000" />
       <workItem from="1746773844126" duration="2646000" />
-      <workItem from="1746971264514" duration="6464000" />
+      <workItem from="1746971264514" duration="6956000" />
     </task>
     <servers />
   </component>
