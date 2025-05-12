@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="4a9a5430-e83d-4879-8d5e-c9086862fc55" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/reflection/reflexion_exercises.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/reflection/reflexion_exercises.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/reflection/reflexion_exercises.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/reflection/reflection_exercises.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/reflection/fieldsandmethods/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/reflection/fieldsandmethods/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/reflection/fieldsandmethods/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/reflection/fieldsandmethods/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/reflection/fieldsandmethods/ReflectionDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/reflection/fieldsandmethods/ReflectionDemo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,6 +84,9 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "onboarding.tips.debug.path": "C:/Users/kong/OneDrive - EFIF/Dokumenter/Valgfag/AvanceretProgrammering/src/main/java/org/example/Main.java",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "build.tools",
     "vue.rearranger.settings.migration": "true"
   }
@@ -109,7 +115,7 @@
       <recent name="concurrency.executorexercise" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.reflection.annotations_solution.Main">
+  <component name="RunManager" selected="Application.MysteryInspectorSolution">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="reflection.fieldsandmethods.Main" />
       <module name="AvanceretProgrammering" />
@@ -186,11 +192,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MysteryInspectorSolution" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.reflection.annotations_solution.Main" />
         <item itemvalue="Application.reflection.annotations.Main" />
-        <item itemvalue="Application.MysteryInspectorSolution" />
         <item itemvalue="Application.MysteryInspector" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -245,7 +251,8 @@
       <workItem from="1746514468235" duration="10185000" />
       <workItem from="1746697695641" duration="659000" />
       <workItem from="1746773844126" duration="2646000" />
-      <workItem from="1746971264514" duration="6956000" />
+      <workItem from="1746971264514" duration="7202000" />
+      <workItem from="1747047067397" duration="4581000" />
     </task>
     <servers />
   </component>

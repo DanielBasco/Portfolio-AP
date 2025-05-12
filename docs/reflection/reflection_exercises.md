@@ -29,7 +29,7 @@ Din opgave er
 - Annoter metoden `deleteAllUsers()` med `@Log`.
 - Udvid din `AccessController` så kald til metoder med `@Log` bliver skrevet i logfil med tidspunkt, brugernavn og om kaldet blev tilladt.
 
-BONUS: Hvis du er hurtigt færdig, så udvid med flere annotationer. Leg fx med `@Target`.
+BONUS: Hvis du er hurtigt færdig, så udvid med flere annotationer. Leg fx med brug af metaannotationen `@Target`.
 
 ## Bonusopgave: Kodegenerering
 
