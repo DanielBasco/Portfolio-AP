@@ -12,7 +12,7 @@ public class ReflectionDemo {
         System.out.println("ToString: " + p);
 
         // --- Find og udskriv alle felter
-        Class<?> clazz = p.getClass();
+        Class<Person> clazz = (Class<Person>) p.getClass();
         for (Field f : clazz.getDeclaredFields()) {
             f.setAccessible(true);
             System.out.println(f.getName() + " = " + f.get(p));

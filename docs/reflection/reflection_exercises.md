@@ -12,7 +12,8 @@ Opgaven er nu
 1. Udskriv klassen navn. Brug `clazz` til dette
 2. Lav et objekt af klassen. Her skal du bruge `clazz` og klassen `Constructor`. Du kan lade objektet have type `Object`.
 3. Print alle metoderne fra klassen inklusive deres synlighed, returtype, navn og parameterliste. Her skal du bruge klasserne
-`Parameter` og `Method`.
+`Parameter` og `Method`. (Hint: modifiers er repræsenteret som `int` når du får dem via `getModifiers()`. Du kan bruge metoden `toString` i 
+klassen `Modifier` til at lave dem om til `public`, `private` mv.)
 4. Kald metoderne ved at bruge `Method`. Du kan få fat i metoderne ved at bruge `clazz.getDeclaredMetod(..)` kaldt med de metodenavne du fandt i
 opgave 3. 
 5. Find ud af om der er felter i klassen og skriv deres værdi ud. 
