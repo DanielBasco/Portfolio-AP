@@ -8,14 +8,21 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
+
+        //testCustom();
         // testComplexity();
        // testLinearAndBinarySearch();
        // testSort();
-
+        int[] numbers = new int[10];
+        for (int i = 0; i<10; i++){
+            numbers[i] = i;
+        }
+        System.out.println(SearchExamples.linearSearch(numbers, 5));
+        System.out.println(SearchExamples.binarySearch(numbers, 6));
     }
 
     private static void testComplexity() {
-        int n = 10000; // justér for at demonstrere tydeligt
+        int n = 6; // justér for at demonstrere tydeligt
 
         // O(1)
         long start = System.currentTimeMillis();
@@ -104,6 +111,38 @@ public class Main {
 
 
 
+
+    private static void testCustom() {
+        int n = 6; // justér for at demonstrere tydeligt
+
+
+        LinkedList<Integer> number = new LinkedList<>();
+
+        // O(1) | Add number via. LinkedList, adds number to last index
+        long start = System.currentTimeMillis();
+        BigOExamples.customConstant(number, n);
+        long stop = System.currentTimeMillis();
+        System.out.println("Time for O(1): " + (stop - start) + " ms\n");
+
+        // O(log n)
+        start = System.currentTimeMillis();
+        BigOExamples.logTime(n);
+        stop = System.currentTimeMillis();
+        System.out.println("Time for O(log n): " + (stop - start) + " ms\n");
+
+        // O(n)
+        start = System.currentTimeMillis();
+        BigOExamples.linearTime(n);
+        stop = System.currentTimeMillis();
+        System.out.println("Time for O(n): " + (stop - start) + " ms\n");
+
+        // O(n²) - pas på med at vælge et for stort n!
+        //  n = 2000; // mindre n for kvadratisk!
+        start = System.currentTimeMillis();
+        BigOExamples.quadraticTime(n);
+        stop = System.currentTimeMillis();
+        System.out.println("Time for O(n²): " + (stop - start) + " ms\n");
+    }
 
 
 
