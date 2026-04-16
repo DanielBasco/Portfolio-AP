@@ -1,15 +1,18 @@
-package searchandsort;
+package searchandsort.util.assignments;
 
+import searchandsort.BigOExamples;
+import searchandsort.SearchExamples;
+import searchandsort.SortExamples;
 import searchandsort.entities.Student;
 import searchandsort.util.Factory;
 
 import java.util.*;
 
-public class Main {
+public class MainAndAssignment1 {
 
     public static void main(String[] args) {
 
-        //testCustom();
+
         // testComplexity();
        // testLinearAndBinarySearch();
        // testSort();
@@ -17,8 +20,10 @@ public class Main {
         for (int i = 0; i<10; i++){
             numbers[i] = i;
         }
-        System.out.println(SearchExamples.linearSearch(numbers, 5));
-        System.out.println(SearchExamples.binarySearch(numbers, 6));
+        //System.out.println(SearchExamples.linearSearch(numbers, 5));
+        //System.out.println(SearchExamples.binarySearch(numbers, 6));
+
+        testCustom();
     }
 
     private static void testComplexity() {
@@ -126,22 +131,16 @@ public class Main {
 
         // O(log n)
         start = System.currentTimeMillis();
-        BigOExamples.logTime(n);
+        BigOExamples.customAddTreeSet(n);
         stop = System.currentTimeMillis();
         System.out.println("Time for O(log n): " + (stop - start) + " ms\n");
 
         // O(n)
         start = System.currentTimeMillis();
-        BigOExamples.linearTime(n);
+        BigOExamples.customRemoveArrayList(n);
         stop = System.currentTimeMillis();
         System.out.println("Time for O(n): " + (stop - start) + " ms\n");
 
-        // O(n²) - pas på med at vælge et for stort n!
-        //  n = 2000; // mindre n for kvadratisk!
-        start = System.currentTimeMillis();
-        BigOExamples.quadraticTime(n);
-        stop = System.currentTimeMillis();
-        System.out.println("Time for O(n²): " + (stop - start) + " ms\n");
     }
 
 

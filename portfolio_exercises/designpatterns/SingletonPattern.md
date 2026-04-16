@@ -26,7 +26,7 @@ public class Singleton {
 
 ---
 
-## 💻 Eksempel i `searchandsort.Main`
+## 💻 Eksempel i `searchandsort.util.assignments.MainAndAssignment1`
 
 ```java
 Singleton a = Singleton.getInstance();

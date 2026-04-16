@@ -3,7 +3,7 @@
 ## 1. Leg med sortering
 - Kig på klassen `SortExamples`, som viser eksempler på fire sorteringsalgoritmer.
 - Se om du kan forstå hvordan de forskellige algoritmer fungerer.
-- Kør metoden `testSort()` fra `main` i klassen `searchandsort.Main`og se tidsstempler for de fire algoritmer.
+- Kør metoden `testSort()` fra `main` i klassen `searchandsort.util.assignments.MainAndAssignment1`og se tidsstempler for de fire algoritmer.
 - Prøv at udkommentere ` Collections.shuffle(original)` og se hvad der sker med `quickSort()`.
   Hvorfor sker dette? (Hint: worst case scenario).
 - Prøv at implementere metoderne `bubbleSort()`, `quickSort()` og `mergeSort` så de tager et `int[] array` som parameter.

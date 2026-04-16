@@ -33,10 +33,10 @@ til
 Opgaven er nu
 
 - Lav en metode `public Node reverseList(Node n)` som tager en `Node` og 
-returnerer head-`Node` i den omvendte liste (du kan lave den i `searchandsort.Main`)
+returnerer head-`Node` i den omvendte liste (du kan lave den i `searchandsort.util.assignments.MainAndAssignment1`)
   - Du løser opgaven ved at få hver enkelt `Node` til at pege på sin nuværende foregående `Node` i stedet for sin nuværende næste 
   - Du kan med fordel skrive din kode i pseudokode før du implementerer den for at øve dig i at tænke algoritmisk. Det er her pointer-kontrol kommer ind.  
-  - Test din kode ved at køre `main` i klassen `searchandsort.Main`. (hint: du skal override `toString()` i `Node`)
+  - Test din kode ved at køre `main` i klassen `searchandsort.util.assignments.MainAndAssignment1`. (hint: du skal override `toString()` i `Node`)
   
 
 
@@ -66,7 +66,7 @@ vil returnere `true`.
 
 Opgaven er nu
 
-- Lav en metode `public boolean hasCycle (Node head)` (fx i klassen `circularlinkedlist.searchandsort.Main`) som tager en `Node` som parameter og returnerer
+- Lav en metode `public boolean hasCycle (Node head)` (fx i klassen `circularlinkedlist.searchandsort.util.assignments.MainAndAssignment1`) som tager en `Node` som parameter og returnerer
 en boolean, der angiver om listen er cycklisk. 
   - Du skal bruge to pointere `slow` og `fast`
   - `slow` skal bevæge sig gennem listen ét skridt ad gangen
@@ -74,7 +74,7 @@ en boolean, der angiver om listen er cycklisk.
   - Hver gang de to pointere har flyttet sig skal du undersøge om de har ramt hinanden
   - Hvis rammer hinanden returneres `true`.
   - Hvis `fast` når enden af listen returneres `false`
-  - Test din kode ved at køre `main` i klassen `searchandsort.Main`
+  - Test din kode ved at køre `main` i klassen `searchandsort.util.assignments.MainAndAssignment1`
 
 Bonusopgave: Kan du forudse hvad `floydexample.TraversingArrays.hasCycle(..)` vil returnere med inputtet ` int[] test = {2, 0, 1}` og hvorfor?
 

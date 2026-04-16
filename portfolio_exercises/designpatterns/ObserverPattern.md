@@ -44,7 +44,7 @@ public class Subject {
 }
 ```
 
-## 💻 Mini-test i `searchandsort.Main`
+## 💻 Mini-test i `searchandsort.util.assignments.MainAndAssignment1`
 
 ```java
 Subject blog = new Subject();

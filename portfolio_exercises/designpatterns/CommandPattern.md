@@ -42,7 +42,7 @@ Command bruges ofte når:
 ## 💻 Mini-test
 
 ```java
-public class searchandsort.Main {
+public class searchandsort.util.assignments.MainAndAssignment1 {
     public static void main(String[] args) {
         Light kitchen = new Light();
         Command on = new LightOnCommand(kitchen);

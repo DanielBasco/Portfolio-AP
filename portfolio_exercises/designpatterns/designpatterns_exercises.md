@@ -12,7 +12,7 @@ Opgaven er nu
 
 - Lav en klasse UppercaseDecorator, som omdanner teksten til store bogstaver. 
 - Lav en klasse CensorDecorator, som fjerner bandeord (du kan lave en liste i klassen med de ord, du vil fjerne).
-- Test i `searchandsort.Main` at du kan bruge dine klasser og sætte dem sammen som du vil. 
+- Test i `searchandsort.util.assignments.MainAndAssignment1` at du kan bruge dine klasser og sætte dem sammen som du vil. 
 
 ## 2. Lav en ny command
 Kig på klasserne `Command`, `AcceptCommand`, `Button` og `CardReader` i pakken 
@@ -24,13 +24,13 @@ Det gør vi med et command pattern. Vi har en klasse `Button` som skal have en `
 Knappen ved ikke hvad den pågældende `Command` gør, men kalder blot `excute()` på den. 
 
 Så laver vi vores `Command` klasser. Der er allerede lavet `AcceptCommand`som skal aktiveres, 
-når kunden trykker på den grønne knap. I `searchandsort.Main` kan du se hvordan `CardReader`, `AcceptCommand`, og 
+når kunden trykker på den grønne knap. I `searchandsort.util.assignments.MainAndAssignment1` kan du se hvordan `CardReader`, `AcceptCommand`, og 
 `Button` kobles sammen. 
 
 Opgaven er nu
 
 - Lav to nye klasser, som implementerer `Command`: én til at rydde input, én til at annullere transaktion.
-- Lav en gul og en rød `Button` i `searchandsort.Main`.
+- Lav en gul og en rød `Button` i `searchandsort.util.assignments.MainAndAssignment1`.
 - Kobl dine nye `Command`-klasser sammen med `CardReader` og de nye knapper.
 - Test at det hele virker ved at kalde `press()` på knapperne.
 
@@ -49,5 +49,5 @@ Opgaven er nu
     - Den skal have et navn, der sættes i konstruktøren.
     - Når `complete()` kaldes, skal den udskrive:  
       `"Udfører opgave: <navn>"`
-- I `searchandsort.Main.main()` skal du fjerne udkommentering og se om du kan få koden til at køre med din nye klasse. 
+- I `searchandsort.util.assignments.MainAndAssignment1.main()` skal du fjerne udkommentering og se om du kan få koden til at køre med din nye klasse. 
     

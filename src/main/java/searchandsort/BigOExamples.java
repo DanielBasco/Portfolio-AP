@@ -57,7 +57,7 @@ public class BigOExamples {
         System.out.println("LinkedList add method is O(1)");
     }
 
-    // O(log n)
+    // O(log n) //Mangler Test
     public static void customAddTreeSet(int n) {
         TreeSet<Integer> tree = new TreeSet<>();
         tree.add(15);
@@ -74,8 +74,8 @@ public class BigOExamples {
 }
 
 
-    // og O(n).
-    public static void CustomRemoveArrayList(int n){
+    // og O(n). /Mangler Test
+    public static void customRemoveArrayList(int n){
         ArrayList<Integer> numbers = new ArrayList<>();
         for (int i = 1; i<10; i++){
             numbers.add(i);
@@ -86,7 +86,6 @@ public class BigOExamples {
         } else {
             System.out.println("List contains 1-10 so "+n+" is invalid");
         }
-        System.out.println("ArrayList remove method is O(n)");
     }
 
 }
