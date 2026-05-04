@@ -1,6 +1,9 @@
 package algorithms.reversedlinkedlist;
 
+import java.util.Objects;
+
 class Node {
+
     int value;
     Node next;
 
@@ -8,4 +11,9 @@ class Node {
         this.value = value;
     }
 
+    @Override
+    public String
+    toString() {
+     return value+"->"+next;
+    }
 }
