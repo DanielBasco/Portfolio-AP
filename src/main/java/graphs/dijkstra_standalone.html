@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dijkstra Visualisering</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 16px; }
+  #wrap { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 10px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  h2 { font-size: 18px; font-weight: 600; margin-bottom: 12px; color: #111; }
+  svg#graph { width: 100%; display: block; background: #fafafa; border: 1px solid #e0e0e0; border-radius: 8px; }
+  #legend { display: flex; gap: 14px; margin-bottom: 8px; font-size: 12px; color: #555; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 5px; }
+  .leg-dot { width: 13px; height: 13px; border-radius: 50%; border: 1.5px solid rgba(0,0,0,0.15); }
+  #controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 10px 0 8px; }
+  button { font-family: Arial, sans-serif; font-size: 13px; padding: 7px 16px; border: 1px solid #bbb; border-radius: 6px; background: #fff; color: #222; cursor: pointer; }
+  button:hover:not(:disabled) { background: #f0f0f0; }
+  button:disabled { opacity: 0.4; cursor: default; }
+  #reset-btn { color: #c0392b; border-color: #e07070; }
+  #step-counter { font-size: 12px; color: #888; }
+  #step-info { font-size: 13px; color: #555; margin: 0 0 10px; min-height: 38px; line-height: 1.6; background: #f9f9f9; border-radius: 6px; padding: 8px 12px; border: 1px solid #e8e8e8; }
+  #step-info strong { color: #111; }
+  #tables { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px; font-size: 12px; }
+  .tbl-box { border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px 12px; background: #fff; }
+  .tbl-box h4 { margin: 0 0 6px; font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.05em; }
+  .tbl-row { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px solid #f0f0f0; }
+  .tbl-row:last-child { border-bottom: none; }
+  .tbl-val { font-weight: 600; color: #111; }
+  .badge-v { background: #e6f4d7; color: #2d6a0a; font-size: 10px; padding: 1px 7px; border-radius: 99px; font-weight: 600; }
+  .edge-lbl { font-size: 11px; fill: #888; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <h2>Dijkstra — trin for trin (S → M)</h2>
+  <div id="legend">
+    <span class="leg"><span class="leg-dot" style="background:#f39c12"></span>Nuværende</span>
+    <span class="leg"><span class="leg-dot" style="background:#3498db"></span>I kø</span>
+    <span class="leg"><span class="leg-dot" style="background:#27ae60"></span>Besøgt</span>
+    <span class="leg"><span class="leg-dot" style="background:#8e44ad"></span>Korteste vej</span>
+    <span class="leg"><span class="leg-dot" style="background:#eee"></span>Ubesøgt</span>
+  </div>
+  <svg id="graph" viewBox="0 0 680 340"></svg>
+  <div id="controls">
+    <button id="prev-btn" disabled>← Forrige</button>
+    <button id="next-btn">Næste →</button>
+    <button id="reset-btn">↺ Reset</button>
+    <span id="step-counter">Trin 0 / ?</span>
+  </div>
+  <div id="step-info">Tryk <strong>Næste</strong> for at starte Dijkstra fra <strong>S</strong> til <strong>M</strong>.</div>
+  <div id="tables">
+    <div class="tbl-box"><h4>Prioritetskø</h4><div id="t-queue"></div></div>
+    <div class="tbl-box"><h4>Afstande (dist)</h4><div id="t-dist"></div></div>
+    <div class="tbl-box"><h4>Besøgt</h4><div id="t-visited"></div></div>
+  </div>
+</div>
+
+<script>
+const nodes = {
+  S:{x:50,y:160}, A:{x:150,y:80}, B:{x:150,y:240}, C:{x:150,y:160},
+  D:{x:260,y:60}, E:{x:260,y:160}, F:{x:260,y:260},
+  G:{x:370,y:80}, H:{x:370,y:190}, I:{x:370,y:300},
+  J:{x:480,y:130}, K:{x:480,y:260},
+  L:{x:580,y:80}, M:{x:580,y:200}
+};
+
+const edges = [
+  ['S','A',1],['S','B',3],['S','C',2],
+  ['A','D',3],['A','E',5],
+  ['B','E',4],['B','F',2],
+  ['C','E',1],
+  ['D','G',2],
+  ['E','G',4],['E','H',2],['E','F',3],
+  ['F','I',4],
+  ['G','J',1],
+  ['H','J',3],['H','K',4],['H','I',2],
+  ['I','K',3],
+  ['J','L',2],['J','M',4],
+  ['K','M',5],
+  ['L','M',3]
+];
+
+function dijkstra() {
+  const dist = {}, prev = {}, visited = new Set();
+  for (const n in nodes) { dist[n] = Infinity; prev[n] = null; }
+  dist['S'] = 0;
+  const queue = [['S', 0]];
+  const steps = [];
+
+  steps.push({
+    desc: 'Initialisering: Afstand til <strong>S</strong> sættes til 0. Alle andre til ∞. S tilføjes til køen.',
+    current: null, queue: [['S',0]], visited: [], dist: {...dist}, prev: {...prev}, path: []
+  });
+
+  while (queue.length > 0) {
+    queue.sort((a,b) => a[1]-b[1]);
+    const [cur, curDist] = queue.shift();
+    if (visited.has(cur)) {
+      steps.push({
+        desc: `<strong>${cur}</strong> er allerede besøgt — spring over (gammel kø-indgang).`,
+        current: cur, queue: queue.map(x=>[...x]), visited: [...visited], dist: {...dist}, prev: {...prev}, path: []
+      });
+      continue;
+    }
+    visited.add(cur);
+    if (cur === 'M') {
+      const path = [];
+      let s = 'M';
+      while (s) { path.unshift(s); s = prev[s]; }
+      steps.push({
+        desc: `<strong>M</strong> er destinationen! Korteste vej fundet med samlet afstand <strong>${curDist}</strong>.`,
+        current: cur, queue: queue.map(x=>[...x]), visited: [...visited], dist: {...dist}, prev: {...prev}, path
+      });
+      break;
+    }
+    const neighbors = edges
+      .filter(e => e[0]===cur || e[1]===cur)
+      .map(e => e[0]===cur ? [e[1],e[2]] : [e[0],e[2]]);
+
+    steps.push({
+      desc: `Tag <strong>${cur}</strong> ud af køen (afstand ${curDist}). Marker som besøgt. Undersøger naboer: ${neighbors.map(n=>n[0]+'(+'+n[1]+')').join(', ')}.`,
+      current: cur, queue: queue.map(x=>[...x]), visited: [...visited], dist: {...dist}, prev: {...prev}, path: []
+    });
+
+    for (const [nb, w] of neighbors) {
+      if (visited.has(nb)) continue;
+      const newDist = curDist + w;
+      if (newDist < dist[nb]) {
+        dist[nb] = newDist;
+        prev[nb] = cur;
+        queue.push([nb, newDist]);
+        steps.push({
+          desc: `Nabo <strong>${nb}</strong>: ${curDist}+${w} = <strong>${newDist}</strong> (forbedring — opdaterer dist og prev).`,
+          current: cur, queue: queue.map(x=>[...x]), visited: [...visited], dist: {...dist}, prev: {...prev}, path: []
+        });
+      }
+    }
+  }
+  return steps;
+}
+
+const steps = dijkstra();
+let stepIdx = 0;
+
+const svg = document.getElementById('graph');
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k,v] of Object.entries(attrs)) e.setAttribute(k,v);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+
+const edgeGroup = el('g', {}, svg);
+const nodeGroup = el('g', {}, svg);
+const edgeEls = {};
+
+for (const [a,b,w] of edges) {
+  const ax=nodes[a].x, ay=nodes[a].y, bx=nodes[b].x, by=nodes[b].y;
+  const line = el('line', {x1:ax,y1:ay,x2:bx,y2:by,stroke:'#ccc',strokeWidth:'1.5'}, edgeGroup);
+  const txt = el('text', {x:(ax+bx)/2,y:(ay+by)/2-5,'text-anchor':'middle',class:'edge-lbl'}, edgeGroup);
+  txt.textContent = w;
+  edgeEls[a+'-'+b] = line;
+}
+
+const nodeEls = {}, distEls = {};
+for (const [name, pos] of Object.entries(nodes)) {
+  const g = el('g', {}, nodeGroup);
+  const c = el('circle', {cx:pos.x,cy:pos.y,r:18,fill:'#eee',stroke:'#bbb','stroke-width':'1.5'}, g);
+  const t = el('text', {x:pos.x,y:pos.y,'text-anchor':'middle','dominant-baseline':'central',style:'font-size:13px;font-weight:600;fill:#222'}, g);
+  t.textContent = name;
+  const d = el('text', {x:pos.x,y:pos.y+29,'text-anchor':'middle',style:'font-size:10px;fill:#888'}, g);
+  d.textContent = '∞';
+  nodeEls[name] = c;
+  distEls[name] = d;
+}
+
+function render() {
+  const s = steps[stepIdx];
+  document.getElementById('step-counter').textContent = 'Trin ' + stepIdx + ' / ' + (steps.length-1);
+  document.getElementById('step-info').innerHTML = s.desc;
+  document.getElementById('prev-btn').disabled = stepIdx === 0;
+  document.getElementById('next-btn').disabled = stepIdx === steps.length-1;
+
+  const qSet = new Set(s.queue.map(q=>q[0]));
+  const vSet = new Set(s.visited);
+  const pSet = new Set(s.path);
+
+  for (const [name, c] of Object.entries(nodeEls)) {
+    let fill='#eee', stroke='#bbb', sw='1.5';
+    if (pSet.has(name))        { fill='#e8d5f5'; stroke='#8e44ad'; sw='2.5'; }
+    else if (name===s.current) { fill='#fde8b5'; stroke='#f39c12'; sw='2.5'; }
+    else if (vSet.has(name))   { fill='#d5f0e0'; stroke='#27ae60'; sw='2'; }
+    else if (qSet.has(name))   { fill='#d0e8f8'; stroke='#3498db'; sw='2'; }
+    c.setAttribute('fill', fill);
+    c.setAttribute('stroke', stroke);
+    c.setAttribute('stroke-width', sw);
+    distEls[name].textContent = s.dist[name] === Infinity ? '∞' : s.dist[name];
+  }
+
+  for (const key of Object.keys(edgeEls)) {
+    edgeEls[key].setAttribute('stroke', '#ccc');
+    edgeEls[key].setAttribute('stroke-width', '1.5');
+  }
+  if (s.path.length > 1) {
+    for (let i=0; i<s.path.length-1; i++) {
+      const a=s.path[i], b=s.path[i+1];
+      const found = edges.find(e=>(e[0]===a&&e[1]===b)||(e[0]===b&&e[1]===a));
+      if (found && edgeEls[found[0]+'-'+found[1]]) {
+        edgeEls[found[0]+'-'+found[1]].setAttribute('stroke','#8e44ad');
+        edgeEls[found[0]+'-'+found[1]].setAttribute('stroke-width','3');
+      }
+    }
+  }
+
+  const tq = document.getElementById('t-queue');
+  tq.innerHTML = s.queue.length === 0
+    ? '<span style="color:#aaa;font-size:11px">Tom</span>'
+    : [...s.queue].sort((a,b)=>a[1]-b[1]).slice(0,7).map(([n,d])=>
+        '<div class="tbl-row"><span>'+n+'</span><span class="tbl-val">'+d+'</span></div>').join('');
+
+  const td = document.getElementById('t-dist');
+  const known = Object.entries(s.dist).filter(([k,v])=>v!==Infinity);
+  td.innerHTML = known.length === 0
+    ? '<span style="color:#aaa;font-size:11px">Kun ∞</span>'
+    : known.map(([k,v])=>'<div class="tbl-row"><span>'+k+'</span><span class="tbl-val">'+v+'</span></div>').join('');
+
+  const tv = document.getElementById('t-visited');
+  tv.innerHTML = s.visited.length === 0
+    ? '<span style="color:#aaa;font-size:11px">Tom</span>'
+    : s.visited.map(n=>'<div class="tbl-row"><span>'+n+'</span><span class="tbl-val badge-v">✓</span></div>').join('');
+}
+
+document.getElementById('next-btn').onclick = () => { if (stepIdx < steps.length-1) { stepIdx++; render(); } };
+document.getElementById('prev-btn').onclick = () => { if (stepIdx > 0) { stepIdx--; render(); } };
+document.getElementById('reset-btn').onclick = () => {
+  stepIdx = 0;
+  for (const l of Object.values(edgeEls)) { l.setAttribute('stroke','#ccc'); l.setAttribute('stroke-width','1.5'); }
+  render();
+};
+
+render();
+</script>
+</body>
+</html>

@@ -13,19 +13,9 @@ public class WeightedNode {
         this.neighbors = new HashMap<>();
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getName(){ return name;}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public Map<WeightedNode, Integer> getNeighbors() {return neighbors;}
 
-    public Map<WeightedNode, Integer> getNeighbors() {
-        return neighbors;
-    }
-
-    public void setNeighbors(Map<WeightedNode, Integer> neighbors) {
-        this.neighbors = neighbors;
-    }
+    public void addNeighbor(WeightedNode neighbor, int weight){neighbors.put(neighbor, weight);}
 }
