@@ -1,0 +1,337 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+  #app { padding: 1rem 0; }
+  h2.sr-only { position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0); }
+  
+  .controls { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:12px; }
+  select, button { font-family:var(--font-sans); font-size:13px; }
+  label { font-size:13px; color:var(--color-text-secondary); }
+  
+  #grid-wrap { position:relative; width:100%; }
+  #grid-canvas { display:block; width:100%; cursor:default; border-radius:var(--border-radius-lg); border:0.5px solid var(--color-border-tertiary); }
+  
+  .log-panel { margin-top:12px; background:var(--color-background-secondary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-md); padding:10px 12px; max-height:160px; overflow-y:auto; font-size:12px; font-family:var(--font-mono); }
+  .log-panel .entry { padding:2px 0; border-bottom:0.5px solid var(--color-border-tertiary); color:var(--color-text-secondary); line-height:1.5; }
+  .log-panel .entry:last-child { border:none; }
+  .log-panel .entry.highlight { color:var(--color-text-success); font-weight:500; }
+  .log-panel .entry.visit { color:var(--color-text-primary); }
+  .log-panel .entry.found { color:var(--color-text-info); font-weight:500; }
+  
+  .legend { display:flex; gap:14px; flex-wrap:wrap; margin-top:10px; }
+  .legend-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--color-text-secondary); }
+  .swatch { width:14px; height:14px; border-radius:3px; flex-shrink:0; }
+  
+  .stats { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
+  .stat { background:var(--color-background-secondary); border-radius:var(--border-radius-md); padding:6px 12px; font-size:12px; color:var(--color-text-secondary); }
+  .stat span { color:var(--color-text-primary); font-weight:500; }
+  
+  #speed-wrap { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--color-text-secondary); }
+  #speed-wrap input { width:80px; }
+</style>
+
+<div id="app">
+  <h2 class="sr-only">A* pathfinding visualisering — find den korteste vej mellem byer på et gitter</h2>
+
+  <div class="controls">
+    <label>Fra:</label>
+    <select id="sel-from"></select>
+    <label>Til:</label>
+    <select id="sel-to"></select>
+    <button id="btn-run" onclick="runAstar()">▶ Kør A*</button>
+    <button id="btn-step" onclick="stepOnce()">Næste trin</button>
+    <button id="btn-reset" onclick="resetViz()">Nulstil</button>
+    <div id="speed-wrap">
+      <label>Hastighed:</label>
+      <input type="range" min="30" max="500" value="200" id="speed-slider">
+    </div>
+  </div>
+
+  <canvas id="grid-canvas"></canvas>
+
+  <div class="stats">
+    <div class="stat">Åbne noder: <span id="stat-open">0</span></div>
+    <div class="stat">Lukkede noder: <span id="stat-closed">0</span></div>
+    <div class="stat">Stilvej-længde: <span id="stat-path">—</span></div>
+    <div class="stat">Trin: <span id="stat-steps">0</span></div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="swatch" style="background:#4a7c59"></div>Skov (kost 3)</div>
+    <div class="legend-item"><div class="swatch" style="background:#c8b560"></div>Ørken (kost 5)</div>
+    <div class="legend-item"><div class="swatch" style="background:#7aacda"></div>Vand (upassérbar)</div>
+    <div class="legend-item"><div class="swatch" style="background:#9a8c7a"></div>Vej (kost 1)</div>
+    <div class="legend-item"><div class="swatch" style="background:#d4c9a8"></div>Slette (kost 2)</div>
+    <div class="legend-item"><div class="swatch" style="background:#f5e642; border:1px solid #aaa"></div>Åben liste</div>
+    <div class="legend-item"><div class="swatch" style="background:#f0a040; border:1px solid #aaa"></div>Lukket liste</div>
+    <div class="legend-item"><div class="swatch" style="background:#e03060"></div>Korteste vej</div>
+  </div>
+
+  <div class="log-panel" id="log-panel"></div>
+</div>
+
+<script>
+const COLS = 14, ROWS = 11;
+const CELL = 44;
+const W = COLS * CELL, H = ROWS * CELL;
+const canvas = document.getElementById('grid-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = W; canvas.height = H;
+
+const T = {GRASS:0, ROAD:1, FOREST:2, DESERT:3, WATER:4, CITY:5};
+const COST = [2, 1, 3, 5, Infinity, 1];
+const COLOR = {
+  0:'#d4c9a8', 1:'#9a8c7a', 2:'#4a7c59', 3:'#c8b560', 4:'#7aacda', 5:'#d4c9a8'
+};
+
+const grid = [
+  [4,4,4,0,0,2,2,2,2,0,0,0,4,4],
+  [4,5,1,1,0,2,2,5,2,0,0,0,4,4],
+  [4,1,4,1,1,1,2,1,1,1,1,0,4,4],
+  [0,1,4,0,0,1,0,1,4,0,1,1,1,0],
+  [0,1,0,0,0,1,5,1,0,0,1,4,1,0],
+  [0,1,1,1,1,1,0,1,1,1,1,0,1,0],
+  [2,0,0,1,0,0,0,0,1,0,0,0,1,3],
+  [2,5,1,1,0,0,3,1,1,1,1,1,5,3],
+  [2,0,1,0,0,0,3,3,0,0,0,1,0,3],
+  [2,2,1,1,1,1,3,3,0,5,0,1,1,3],
+  [2,2,0,0,0,1,3,3,3,1,1,1,0,3],
+];
+
+const cities = [
+  {name:'Nordby',   r:1,  c:1,  color:'#3b82f6'},
+  {name:'Sydby',    r:9,  c:9,  color:'#ef4444'},
+  {name:'Vestby',   r:7,  c:1,  color:'#8b5cf6'},
+  {name:'Østby',    r:1,  c:7,  color:'#f59e0b'},
+  {name:'Kystholm', r:4,  c:6,  color:'#10b981'},
+  {name:'Sandvig',  r:9,  c:9,  color:'#ef4444'},
+  {name:'Skovdal',  r:7,  c:12, color:'#ec4899'},
+];
+const uniqueCities = [cities[0],cities[1],cities[2],cities[3],cities[4],cities[6]];
+uniqueCities[1] = {name:'Sydby',r:9,c:9,color:'#ef4444'};
+
+const CITIES = [
+  {name:'Nordby',   r:1, c:1, color:'#3b82f6'},
+  {name:'Østby',    r:1, c:7, color:'#f59e0b'},
+  {name:'Vestby',   r:7, c:1, color:'#8b5cf6'},
+  {name:'Sydby',    r:9, c:9, color:'#ef4444'},
+  {name:'Kystholm', r:4, c:6, color:'#10b981'},
+  {name:'Skovdal',  r:7, c:12,color:'#ec4899'},
+];
+
+let openSet=[], closedSet=[], cameFrom={}, gScore={}, fScore={}, pathCells=[];
+let running=false, timer=null, stepCount=0, found=false, foundPath=[];
+
+function key(r,c){return r+','+c;}
+function heuristic(r1,c1,r2,c2){return Math.abs(r1-r2)+Math.abs(c1-c2);}
+function neighbors(r,c){
+  const n=[];
+  [[r-1,c],[r+1,c],[r,c-1],[r,c+1]].forEach(([nr,nc])=>{
+    if(nr>=0&&nr<ROWS&&nc>=0&&nc<COLS&&COST[grid[nr][nc]]<Infinity) n.push([nr,nc]);
+  });
+  return n;
+}
+function getCity(name){return CITIES.find(c=>c.name===name);}
+
+function initSelects(){
+  const sf=document.getElementById('sel-from');
+  const st=document.getElementById('sel-to');
+  CITIES.forEach(c=>{
+    sf.innerHTML+=`<option value="${c.name}">${c.name}</option>`;
+    st.innerHTML+=`<option value="${c.name}">${c.name}</option>`;
+  });
+  st.value='Sydby';
+}
+
+function log(msg,cls='entry'){
+  const p=document.getElementById('log-panel');
+  const d=document.createElement('div');
+  d.className='entry '+(cls||'');
+  d.textContent=msg;
+  p.appendChild(d);
+  p.scrollTop=p.scrollHeight;
+}
+
+function resetViz(){
+  clearInterval(timer); running=false;
+  openSet=[]; closedSet=[]; cameFrom={}; gScore={}; fScore={}; pathCells=[]; foundPath=[];
+  stepCount=0; found=false;
+  document.getElementById('log-panel').innerHTML='';
+  document.getElementById('stat-open').textContent='0';
+  document.getElementById('stat-closed').textContent='0';
+  document.getElementById('stat-path').textContent='—';
+  document.getElementById('stat-steps').textContent='0';
+  draw();
+}
+
+function startAstar(){
+  const fromName=document.getElementById('sel-from').value;
+  const toName=document.getElementById('sel-to').value;
+  if(fromName===toName){log('Vælg to forskellige byer!','highlight');return false;}
+  const start=getCity(fromName), goal=getCity(toName);
+  resetViz();
+  const sk=key(start.r,start.c);
+  gScore[sk]=0;
+  fScore[sk]=heuristic(start.r,start.c,goal.r,goal.c);
+  openSet=[{r:start.r,c:start.c,f:fScore[sk]}];
+  log(`Start: ${fromName} → ${toName}`,'highlight');
+  log(`Heuristik fra start: ${fScore[sk].toFixed(1)}`);
+  window._goal=goal; window._start=start; window._fromName=fromName; window._toName=toName;
+  return true;
+}
+
+function astarStep(){
+  const goal=window._goal;
+  if(openSet.length===0){log('Ingen vej fundet!','highlight');clearInterval(timer);running=false;return;}
+  openSet.sort((a,b)=>a.f-b.f);
+  const cur=openSet.shift();
+  const ck=key(cur.r,cur.c);
+  closedSet.push(ck);
+  stepCount++;
+
+  const city=CITIES.find(c=>c.r===cur.r&&c.c===cur.c);
+  const label=city?city.name:`(${cur.r},${cur.c})`;
+  log(`Undersøger: ${label} | g=${gScore[ck].toFixed(1)} h=${heuristic(cur.r,cur.c,goal.r,goal.c).toFixed(1)} f=${(gScore[ck]+heuristic(cur.r,cur.c,goal.r,goal.c)).toFixed(1)}`,'visit');
+
+  if(cur.r===goal.r&&cur.c===goal.c){
+    found=true;
+    foundPath=reconstructPath(cur.r,cur.c);
+    pathCells=foundPath;
+    const total=gScore[ck];
+    log(`✓ Vej fundet! ${window._fromName} → ${window._toName} | Samlet kost: ${total.toFixed(1)}`,'found');
+    document.getElementById('stat-path').textContent=total.toFixed(1)+' ('+foundPath.length+' celler)';
+    clearInterval(timer); running=false;
+    draw(); updateStats(); return;
+  }
+
+  neighbors(cur.r,cur.c).forEach(([nr,nc])=>{
+    const nk=key(nr,nc);
+    if(closedSet.includes(nk)) return;
+    const ng=gScore[ck]+COST[grid[nr][nc]];
+    if(gScore[nk]===undefined||ng<gScore[nk]){
+      cameFrom[nk]=ck;
+      gScore[nk]=ng;
+      fScore[nk]=ng+heuristic(nr,nc,goal.r,goal.c);
+      const existing=openSet.find(n=>n.r===nr&&n.c===nc);
+      if(existing) existing.f=fScore[nk];
+      else openSet.push({r:nr,c:nc,f:fScore[nk]});
+      const nc2=CITIES.find(c=>c.r===nr&&c.c===nc);
+      const nl=nc2?nc2.name:`(${nr},${nc})`;
+      log(`  Opdaterer ${nl}: g=${ng.toFixed(1)} f=${fScore[nk].toFixed(1)}`);
+    }
+  });
+  draw(); updateStats();
+}
+
+function reconstructPath(r,c){
+  const path=[];
+  let k=key(r,c);
+  while(k){path.unshift(k);k=cameFrom[k];}
+  return path;
+}
+
+function runAstar(){
+  if(!startAstar()) return;
+  running=true;
+  const speed=document.getElementById('speed-slider');
+  const delay=()=>510-parseInt(speed.value);
+  draw();
+  timer=setInterval(()=>{
+    if(!running){clearInterval(timer);return;}
+    astarStep();
+  },delay());
+}
+
+function stepOnce(){
+  if(!running&&stepCount===0){
+    if(!startAstar()) return;
+  }
+  astarStep();
+}
+
+function updateStats(){
+  document.getElementById('stat-open').textContent=openSet.length;
+  document.getElementById('stat-closed').textContent=closedSet.length;
+  document.getElementById('stat-steps').textContent=stepCount;
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
+      const x=c*CELL,y=r*CELL;
+      const t=grid[r][c];
+      ctx.fillStyle=COLOR[t];
+      ctx.fillRect(x,y,CELL,CELL);
+      const k=key(r,c);
+      if(pathCells.includes(k)){
+        ctx.fillStyle='rgba(224,48,96,0.55)';
+        ctx.fillRect(x,y,CELL,CELL);
+      } else if(closedSet.includes(k)){
+        ctx.fillStyle='rgba(240,160,64,0.45)';
+        ctx.fillRect(x,y,CELL,CELL);
+      } else if(openSet.find(n=>n.r===r&&n.c===c)){
+        ctx.fillStyle='rgba(245,230,66,0.55)';
+        ctx.fillRect(x,y,CELL,CELL);
+      }
+      ctx.strokeStyle='rgba(0,0,0,0.08)';
+      ctx.lineWidth=0.5;
+      ctx.strokeRect(x+0.25,y+0.25,CELL-0.5,CELL-0.5);
+    }
+  }
+  if(pathCells.length>1){
+    ctx.save();
+    ctx.strokeStyle='rgba(224,48,96,0.9)';
+    ctx.lineWidth=3;
+    ctx.lineJoin='round';
+    ctx.lineCap='round';
+    ctx.beginPath();
+    pathCells.forEach((k,i)=>{
+      const [r,c]=k.split(',').map(Number);
+      const x=c*CELL+CELL/2,y=r*CELL+CELL/2;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+    ctx.restore();
+  }
+  if(gScore&&Object.keys(gScore).length>0){
+    ctx.save();
+    ctx.font=`bold 9px monospace`;
+    ctx.textAlign='center';
+    for(const k in gScore){
+      const [r,c]=k.split(',').map(Number);
+      const x=c*CELL+CELL/2, y=r*CELL+CELL-5;
+      if(closedSet.includes(k)||openSet.find(n=>n.r===r&&n.c===c)||pathCells.includes(k)){
+        ctx.fillStyle='rgba(0,0,0,0.6)';
+        ctx.fillText('g='+gScore[k].toFixed(0),x,y);
+      }
+    }
+    ctx.restore();
+  }
+  CITIES.forEach(city=>{
+    const x=city.c*CELL, y=city.r*CELL;
+    ctx.save();
+    ctx.fillStyle=city.color;
+    ctx.strokeStyle='#fff';
+    ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.roundRect(x+4,y+4,CELL-8,CELL-8,5);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle='#fff';
+    ctx.font='bold 9px sans-serif';
+    ctx.textAlign='center';
+    ctx.textBaseline='middle';
+    const initials=city.name.slice(0,2).toUpperCase();
+    ctx.fillText(initials,x+CELL/2,y+CELL/2);
+    ctx.fillStyle='rgba(0,0,0,0.75)';
+    ctx.font='bold 10px sans-serif';
+    ctx.fillText(city.name,x+CELL/2,y+CELL+8);
+    ctx.restore();
+  });
+}
+
+initSelects();
+draw();
+</script>
