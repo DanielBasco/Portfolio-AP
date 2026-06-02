@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A* — Korteste vej</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #f5f0e8;
+  --paper: #ede8dc;
+  --ink: #1a1714;
+  --ink2: #3d3830;
+  --muted: #8c8579;
+  --line: #d4cdc0;
+  --open: #b8d4a8;
+  --open-b: #5a8c45;
+  --closed: #e8c89a;
+  --closed-b: #b07030;
+  --path: #c94040;
+  --path-b: #8c2020;
+  --water: #8ab4cc;
+  --forest: #6a9c5a;
+  --road: #9a9080;
+  --desert: #c8aa6a;
+  --grass: #b0a888;
+  --city-ring: #1a1714;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'IBM Plex Mono', monospace;
+  min-height: 100vh;
+  padding: 28px 24px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 24px;
+  border-bottom: 1.5px solid var(--ink);
+  padding-bottom: 12px;
+}
+.title {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.subtitle {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+/* Main layout: grid left, controls right */
+.main {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* Grid */
+.grid-wrap {
+  position: relative;
+}
+canvas#gc {
+  display: block;
+  border: 1.5px solid var(--ink);
+  image-rendering: pixelated;
+}
+
+/* Legend below grid */
+.legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.leg {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: .04em;
+}
+.ls {
+  width: 12px; height: 12px;
+  border: 1px solid rgba(0,0,0,0.25);
+  flex-shrink: 0;
+}
+
+/* Right column */
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+/* Route selector */
+.route-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.lbl { font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+select {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 5px 8px;
+  cursor: pointer;
+  outline: none;
+}
+select:focus { border-color: var(--ink2); }
+
+/* Buttons */
+.btn-row { display: flex; gap: 8px; }
+.btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  padding: 7px 16px;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .12s, color .12s;
+  text-transform: uppercase;
+}
+.btn:hover { background: var(--ink); color: var(--cream); }
+.btn:disabled { opacity: .3; cursor: default; }
+.btn.run { background: var(--ink); color: var(--cream); }
+.btn.run:hover { background: var(--ink2); }
+
+/* Speed */
+.speed-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; color: var(--muted);
+}
+input[type=range] {
+  accent-color: var(--ink);
+  width: 90px;
+}
+
+/* Step card */
+.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 12px 14px;
+}
+.card-label {
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.steptext {
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--ink2);
+  min-height: 44px;
+}
+.steptext .hi { color: var(--path-b); font-weight: 600; }
+.steptext .g  { color: var(--open-b); font-weight: 600; }
+.steptext .h  { color: var(--closed-b); font-weight: 600; }
+.steptext .ok { color: #3a7a3a; font-weight: 600; }
+
+/* Stats */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.stat {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 8px 10px;
+  text-align: center;
+}
+.stat-val {
+  font-size: 20px;
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.stat-lbl { font-size: 9px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+
+/* Data tables side by side */
+.tables { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tbl { background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 8px 10px; }
+.tbl-h { font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+.trow { display: flex; justify-content: space-between; padding: 2px 0; font-size: 11px; color: var(--ink2); border-bottom: 1px solid rgba(0,0,0,0.05); }
+.trow:last-child { border: none; }
+.tv { font-weight: 600; color: var(--ink); }
+.tv.new { color: var(--open-b); }
+
+/* Log */
+.log-scroll { max-height: 120px; overflow-y: auto; }
+.le { font-size: 10px; line-height: 1.6; padding: 1px 0; border-bottom: 1px solid rgba(0,0,0,0.05); color: var(--muted); }
+.le:last-child { border: none; }
+.le.init { color: var(--ink2); }
+.le.upd { color: var(--closed-b); }
+.le.found { color: var(--path-b); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="title">A* Pathfinding</div>
+  <div class="subtitle">Manhattan heuristik · Korteste vej</div>
+</div>
+
+<div class="main">
+  <!-- Grid -->
+  <div class="grid-wrap">
+    <canvas id="gc"></canvas>
+    <div class="legend">
+      <div class="leg"><div class="ls" style="background:#8ab4cc"></div>Vand (∞)</div>
+      <div class="leg"><div class="ls" style="background:#6a9c5a"></div>Skov (3)</div>
+      <div class="leg"><div class="ls" style="background:#c8aa6a"></div>Ørken (5)</div>
+      <div class="leg"><div class="ls" style="background:#9a9080"></div>Vej (1)</div>
+      <div class="leg"><div class="ls" style="background:#b0a888"></div>Slette (2)</div>
+      <div class="leg"><div class="ls" style="background:#b8d4a8;border-color:#5a8c45"></div>Åben liste</div>
+      <div class="leg"><div class="ls" style="background:#e8c89a;border-color:#b07030"></div>Lukket liste</div>
+      <div class="leg"><div class="ls" style="background:#c94040"></div>Korteste vej</div>
+    </div>
+  </div>
+
+  <!-- Controls + info -->
+  <div class="right">
+
+    <div class="card">
+      <div class="card-label">Rute</div>
+      <div class="route-row">
+        <span class="lbl">Fra</span>
+        <select id="sf"></select>
+        <span class="lbl">til</span>
+        <select id="st"></select>
+      </div>
+    </div>
+
+    <div>
+      <div class="btn-row" style="margin-bottom:8px">
+        <button class="btn run" onclick="runA()">▶ Kør</button>
+        <button class="btn" id="btnStep" onclick="stepOnce()">Næste →</button>
+        <button class="btn" onclick="resetAll()">↺ Nulstil</button>
+      </div>
+      <div class="speed-row">
+        <span>Hastighed</span>
+        <input type="range" id="spd" min="40" max="480" value="200" step="20">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Nuværende trin</div>
+      <div class="steptext" id="stepbox">Vælg to byer og tryk <strong>Kør</strong> eller <strong>Næste</strong>.</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-val" id="s-open">0</div><div class="stat-lbl">Åbne</div></div>
+      <div class="stat"><div class="stat-val" id="s-closed">0</div><div class="stat-lbl">Lukkede</div></div>
+      <div class="stat"><div class="stat-val" id="s-steps">0</div><div class="stat-lbl">Trin</div></div>
+    </div>
+
+    <div class="tables">
+      <div class="tbl">
+        <div class="tbl-h">Åben liste (f-score)</div>
+        <div id="topen"></div>
+      </div>
+      <div class="tbl">
+        <div class="tbl-h">g-score (kost fra start)</div>
+        <div id="tg"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Log</div>
+      <div class="log-scroll" id="logp"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const C=10,R=10,SZ=48;
+const COST=[2,1,3,5,1/0];
+// 0=grass,1=road,2=forest,3=desert,4=water
+const GRID=[
+  [4,4,0,2,2,2,0,0,4,4],
+  [4,1,1,1,2,0,0,0,4,4],
+  [0,1,4,1,1,1,2,0,0,4],
+  [0,1,0,0,0,1,2,1,1,0],
+  [0,1,1,1,0,1,0,1,4,0],
+  [2,0,0,1,1,1,1,1,0,0],
+  [2,0,0,0,0,0,1,0,0,3],
+  [2,1,1,1,0,0,1,1,1,3],
+  [4,1,0,1,1,1,0,0,1,3],
+  [4,1,1,1,0,0,3,3,1,0],
+];
+const TCOLOR=['#b0a888','#9a9080','#6a9c5a','#c8aa6a','#8ab4cc'];
+const CITIES=[
+  {name:'Nordby', r:1,c:1, col:'#2a6ab0'},
+  {name:'Østby',  r:1,c:6, col:'#b07a20'},
+  {name:'Vestby', r:7,c:1, col:'#6a3ab0'},
+  {name:'Sydby',  r:8,c:8, col:'#b03030'},
+  {name:'Midtby', r:4,c:7, col:'#207a50'},
+  {name:'Skovby', r:6,c:6, col:'#7a5020'},
+];
+
+const cv=document.getElementById('gc');
+const cx=cv.getContext('2d');
+cv.width=C*SZ; cv.height=R*SZ;
+
+let openSet=[],closedSet=new Set(),cameFrom={},gS={},fS={};
+let path=[],running=false,tmr=null,steps=0,done=false;
+let goal=null,src=null,fresh=new Set();
+
+const K=(r,c)=>r+','+c;
+const FK=k=>{const[a,b]=k.split(',').map(Number);return{r:a,c:b};};
+const H=(r1,c1,r2,c2)=>Math.abs(r1-r2)+Math.abs(c1-c2);
+const cityAt=(r,c)=>CITIES.find(x=>x.r===r&&x.c===c);
+const nm=(r,c)=>{const x=cityAt(r,c);return x?x.name:`(${r},${c})`;};
+const nbrs=(r,c)=>{
+  const n=[];
+  [[r-1,c],[r+1,c],[r,c-1],[r,c+1]].forEach(([a,b])=>{
+    if(a>=0&&a<R&&b>=0&&b<C&&COST[GRID[a][b]]<Infinity) n.push([a,b]);
+  });
+  return n;
+};
+
+function initSelects(){
+  ['sf','st'].forEach(id=>{
+    const s=document.getElementById(id);
+    s.innerHTML='';
+    CITIES.forEach(c=>{s.innerHTML+=`<option value="${c.name}">${c.name}</option>`;});
+  });
+  document.getElementById('st').value='Sydby';
+}
+
+function log(txt,cls=''){
+  const p=document.getElementById('logp');
+  const d=document.createElement('div');
+  d.className='le '+(cls||'');
+  d.textContent=txt;
+  p.appendChild(d);
+  p.scrollTop=p.scrollHeight;
+}
+
+function setStep(html){document.getElementById('stepbox').innerHTML=html;}
+
+function updateTables(){
+  const sorted=[...openSet].sort((a,b)=>a.f-b.f).slice(0,6);
+  document.getElementById('topen').innerHTML=sorted.length
+    ?sorted.map(x=>`<div class="trow"><span>${nm(x.r,x.c)}</span><span class="tv${fresh.has(K(x.r,x.c))?' new':''}">${x.f.toFixed(1)}</span></div>`).join('')
+    :'<div class="trow" style="color:var(--muted)">Tom</div>';
+
+  const gs=Object.entries(gS).sort((a,b)=>a[1]-b[1]).slice(0,6);
+  document.getElementById('tg').innerHTML=gs.length
+    ?gs.map(([k,v])=>{const{r,c}=FK(k);return`<div class="trow"><span>${nm(r,c)}</span><span class="tv${fresh.has(k)?' new':''}">${v.toFixed(1)}</span></div>`;}).join('')
+    :'<div class="trow" style="color:var(--muted)">Tom</div>';
+
+  document.getElementById('s-open').textContent=openSet.length;
+  document.getElementById('s-closed').textContent=closedSet.size;
+  document.getElementById('s-steps').textContent=steps;
+}
+
+function resetAll(){
+  clearInterval(tmr);running=false;
+  openSet=[];closedSet=new Set();cameFrom={};gS={};fS={};
+  path=[];steps=0;done=false;fresh=new Set();goal=null;src=null;
+  document.getElementById('logp').innerHTML='';
+  document.getElementById('s-open').textContent=0;
+  document.getElementById('s-closed').textContent=0;
+  document.getElementById('s-steps').textContent=0;
+  setStep('Vælg to byer og tryk <strong>Kør</strong> eller <strong>Næste</strong>.');
+  updateTables(); draw();
+}
+
+function initA(){
+  const fn=document.getElementById('sf').value;
+  const tn=document.getElementById('st').value;
+  if(fn===tn){log('Vælg to forskellige byer.');return false;}
+  const newSrc=CITIES.find(x=>x.name===fn);
+  const newGoal=CITIES.find(x=>x.name===tn);
+  if(!newSrc||!newGoal){log('By ikke fundet.');return false;}
+  resetAll();
+  src=newSrc;
+  goal=newGoal;
+  const sk=K(src.r,src.c);
+  gS[sk]=0;
+  const hv=H(src.r,src.c,goal.r,goal.c);
+  fS[sk]=hv;
+  openSet=[{r:src.r,c:src.c,f:hv}];
+  log(`Start: ${fn} → ${tn}`,'init');
+  log(`h(${fn}) = ${hv}  →  f = ${hv}`,'init');
+  setStep(`<span class="g">Init:</span> Tilføjer <span class="hi">${fn}</span> til åben liste.<br>g=0  h=<span class="h">${hv}</span>  f=<span class="hi">${hv}</span>`);
+  updateTables(); draw();
+  return true;
+}
+
+function aStep(){
+  if(!goal||!src) return;
+  fresh=new Set();
+  if(!openSet.length){
+    log('Ingen vej fundet.','found');
+    setStep('<span class="hi">Åben liste tom — ingen vej fundet.</span>');
+    clearInterval(tmr);running=false;return;
+  }
+  openSet.sort((a,b)=>a.f-b.f);
+  const cur=openSet.shift();
+  const ck=K(cur.r,cur.c);
+  steps++;
+  closedSet.add(ck);
+
+  const gv=gS[ck]||0;
+  const hv=H(cur.r,cur.c,goal.r,goal.c);
+  const cn=nm(cur.r,cur.c);
+  log(`Poll: ${cn} | g=${gv.toFixed(1)} h=${hv} f=${(gv+hv).toFixed(1)}`,'init');
+  setStep(`<span class="g">Poll:</span> Henter <span class="hi">${cn}</span> (laveste f).<br>g=<span class="g">${gv.toFixed(1)}</span>  h=<span class="h">${hv}</span>  f=<span class="hi">${(gv+hv).toFixed(1)}</span>`);
+
+  if(cur.r===goal.r&&cur.c===goal.c){
+    done=true;
+    path=reconstruct(cur.r,cur.c);
+    const total=gS[ck];
+    log(`✓ ${src.name} → ${goal.name}  kost: ${total.toFixed(1)}  celler: ${path.length}`,'found');
+    setStep(`<span class="ok">✓ Mål nået!</span> <span class="hi">${src.name} → ${goal.name}</span><br>Samlet kost: <span class="hi">${total.toFixed(1)}</span>  ·  ${path.length} celler`);
+    clearInterval(tmr);running=false;
+    draw(); updateTables(); return;
+  }
+
+  nbrs(cur.r,cur.c).forEach(([nr,nc])=>{
+    const nk=K(nr,nc);
+    if(closedSet.has(nk)) return;
+    const ng=gv+COST[GRID[nr][nc]];
+    const old=gS[nk]!==undefined?gS[nk]:Infinity;
+    if(ng<old){
+      fresh.add(nk);
+      gS[nk]=ng;
+      const nhv=H(nr,nc,goal.r,goal.c);
+      fS[nk]=ng+nhv;
+      cameFrom[nk]=ck;
+      const ex=openSet.find(x=>x.r===nr&&x.c===nc);
+      if(ex) ex.f=fS[nk]; else openSet.push({r:nr,c:nc,f:fS[nk]});
+      const imp=old===Infinity?'ny':'fra '+old.toFixed(1);
+      log(`  ${nm(nr,nc)}: g=${ng.toFixed(1)} h=${nhv} f=${fS[nk].toFixed(1)} (${imp})`,'upd');
+    }
+  });
+  draw(); updateTables();
+}
+
+function reconstruct(r,c){
+  const p=[];let k=K(r,c);
+  while(k){p.unshift(k);k=cameFrom[k];}
+  return p;
+}
+
+function stepOnce(){
+  if(done) return;
+  if(!src||!goal){if(!initA()) return;}
+  aStep();
+}
+
+function runA(){
+  if(!initA()) return;
+  running=true;
+  const delay=()=>510-parseInt(document.getElementById('spd').value);
+  tmr=setInterval(()=>{if(!running){clearInterval(tmr);return;}aStep();},delay());
+}
+
+
+function draw(){
+  cx.clearRect(0,0,C*SZ,R*SZ);
+
+  for(let r=0;r<R;r++){
+    for(let c=0;c<C;c++){
+      const x=c*SZ,y=r*SZ;
+      // base terrain
+      cx.fillStyle=TCOLOR[GRID[r][c]];
+      cx.fillRect(x,y,SZ,SZ);
+
+      const k=K(r,c);
+      if(path.includes(k)){
+        cx.fillStyle='rgba(201,64,64,0.55)';
+        cx.fillRect(x,y,SZ,SZ);
+      } else if(closedSet.has(k)){
+        cx.fillStyle='rgba(200,160,80,0.42)';
+        cx.fillRect(x,y,SZ,SZ);
+      } else if(openSet.find(n=>n.r===r&&n.c===c)){
+        cx.fillStyle='rgba(140,200,100,0.42)';
+        cx.fillRect(x,y,SZ,SZ);
+      }
+
+      // grid line
+      cx.strokeStyle='rgba(0,0,0,0.12)';
+      cx.lineWidth=0.5;
+      cx.strokeRect(x+.25,y+.25,SZ-.5,SZ-.5);
+    }
+  }
+
+  // g-score labels
+  cx.save();
+  cx.font='bold 9px IBM Plex Mono,monospace';
+  cx.textAlign='center';
+  Object.entries(gS).forEach(([k,v])=>{
+    const{r,c}=FK(k);
+    if(closedSet.has(k)||openSet.find(n=>n.r===r&&n.c===c)||path.includes(k)){
+      cx.fillStyle='rgba(30,20,10,0.65)';
+      cx.fillText(v.toFixed(0),c*SZ+SZ/2,r*SZ+SZ-5);
+    }
+  });
+  cx.restore();
+
+  // path line
+  if(path.length>1){
+    cx.save();
+    cx.strokeStyle='rgba(201,64,64,0.92)';
+    cx.lineWidth=3;cx.lineJoin='round';cx.lineCap='round';
+    cx.beginPath();
+    path.forEach((k,i)=>{
+      const{r,c}=FK(k);
+      const px=c*SZ+SZ/2,py=r*SZ+SZ/2;
+      i===0?cx.moveTo(px,py):cx.lineTo(px,py);
+    });
+    cx.stroke();
+    cx.restore();
+  }
+
+  // Cities
+  CITIES.forEach(ct=>{
+    const x=ct.c*SZ,y=ct.r*SZ;
+    cx.save();
+    // circle bg
+    cx.beginPath();
+    cx.arc(x+SZ/2,y+SZ/2,16,0,Math.PI*2);
+    cx.fillStyle=ct.col+'dd';
+    cx.fill();
+    cx.strokeStyle='rgba(255,255,255,0.7)';
+    cx.lineWidth=2;
+    cx.stroke();
+    // initials
+    cx.fillStyle='#fff';
+    cx.font='bold 10px IBM Plex Mono,monospace';
+    cx.textAlign='center';
+    cx.textBaseline='middle';
+    cx.fillText(ct.name.slice(0,2).toUpperCase(),x+SZ/2,y+SZ/2);
+    cx.restore();
+    // label below
+    cx.save();
+    cx.font='600 9px IBM Plex Mono,monospace';
+    cx.textAlign='center';
+    cx.fillStyle=ct.col;
+    cx.fillText(ct.name,x+SZ/2,y+SZ+8);
+    cx.restore();
+  });
+}
+
+initSelects();
+draw();
+</script>
+</body>
+</html>
